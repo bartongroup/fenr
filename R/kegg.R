@@ -96,16 +96,20 @@ parse_kegg_genes <- function(s) {
       i <- i + 1
     }
 
-    # create final tibble, attempt to extract gene symbols when semicolon is found
-    genes |>
-      tibble::as_tibble_col(column_name = "data") |>
-      tidyr::separate(data, c("gene_id", "gene_symbol"), sep = "\\s+", extra = "merge") |>
-      dplyr::mutate(gene_symbol = dplyr::if_else(
-        stringr::str_detect(gene_symbol, ";"),
-        stringr::str_remove(gene_symbol, ";.+$"),
-        gene_id
-      )) |>
-      tibble::add_column(term_id = pathway)
+    purrr::map(genes, function(gene) {
+      # First element - gene ID, second - gene symbol, if contains semicolon
+      v <- stringr::str_split_1(gene, "\\s+")
+      tibble::tibble(
+        gene_id = v[1],
+        gene_symbol = ifelse(
+          stringr::str_detect(v[2], ";"),
+          stringr::str_remove(v[2], ";.*$"),
+          v[1]
+        ),
+        term_id = pathway
+      )
+    }) |> 
+      purrr::list_rbind()
   }) |>
     purrr::list_rbind()
 }
