@@ -174,3 +174,7 @@
 ## Version 1.4.1
 
  - Attempted to fix a bizarre error message on Bioconductor's test machines with older version of MacOS. Windows and Linux are not affected; my laptop running Sequoia 5.2 does not show show errors. I suspect a memory leak in older systems. The error `vector memory limit of 64.0 Gb reached, see mem.maxVSize()` happened in the function parse_kegg_genes(), a flat-file parser for KEGG. It occurred around the call tidyr::separate(), which I replaced with an alternative approach. Will see if the error is fixed.
+
+ ## Version 1.4.2
+
+ - Added evidence code column to GO-term mapping table. It can be used to filter mapping based on their quality. See https://geneontology.org/docs/guide-go-evidence-codes for explanation.

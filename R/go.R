@@ -48,6 +48,7 @@ stringr::str_glue("
     <Attribute name = 'ensembl_gene_id'/>
     <Attribute name = 'external_gene_name'/>
     <Attribute name = 'go_id'/>
+    <Attribute name = 'go_linkage_type'/>
   </Dataset>
 </Query>") |>
     stringr::str_replace_all("\n", "") |>
@@ -195,12 +196,13 @@ fetch_go_species <- function(on_error = c("stop", "warn", "ignore")) {
 #'   either "stop" to halt execution, "warn" to issue a warning and return
 #'   `NULL` or "ignore" to return `NULL` without warnings. Defaults to "stop".
 #'
-#' @return A tibble with columns \code{gene_symbol}, \code{uniprot_id} and \code{term_id}.
+#' @return A tibble with columns \code{gene_symbol}, \code{uniprot_id}, 
+#'   \code{term_id} and \code{evidence}.
 #' @noRd
 fetch_go_genes_go <- function(species, use_cache, on_error) {
   # Binding variables from non-standard evaluation locally
   gene_id <- db_object_synonym <- symbol <- NULL
-  db_id <- go_term <- NULL
+  db_id <- go_term <- evidence <- NULL
 
   url <- get_go_annotation_url()
   if(!assert_url_path(url, on_error))
@@ -211,7 +213,7 @@ fetch_go_genes_go <- function(species, use_cache, on_error) {
   readr::read_tsv(lpath, comment = "!", quote = "", col_names = GAF_COLUMNS,
                   col_types = GAF_TYPES) |>
     dplyr::mutate(gene_id = stringr::str_remove(db_object_synonym, "\\|.*$")) |>
-    dplyr::select(gene_symbol = symbol, gene_id, db_id, term_id = go_term) |>
+    dplyr::select(gene_symbol = symbol, gene_id, db_id, term_id = go_term, evidence) |>
     dplyr::distinct()
 }
 
@@ -272,8 +274,8 @@ fetch_go_from_go <- function(species, use_cache, on_error) {
 #'   either "stop" to halt execution, "warn" to issue a warning and return
 #'   `NULL` or "ignore" to return `NULL` without warnings. Defaults to "stop".
 #'
-#' @return A tibble with columns \code{gene_id}, \code{gene_symbol} and
-#'   \code{term_id}.
+#' @return A tibble with columns \code{gene_id}, \code{gene_symbol},
+#'   \code{term_id} and \code{evidence}.
 #' @noRd
 fetch_go_genes_bm <- function(dataset, use_cache, on_error) {
   xml <- get_biomart_xml(dataset) |>
@@ -287,8 +289,8 @@ fetch_go_genes_bm <- function(dataset, use_cache, on_error) {
   # Problems with cache, bfcneedsupdate returns error for this query
   # lpath <- cached_url_path(stringr::str_glue("biomart_{dataset}"), resp, use_cache)
   res <- readr::read_tsv(req, show_col_types = FALSE)
-  if(ncol(res) == 3) {
-    res |> rlang::set_names(c("gene_id", "gene_symbol", "term_id"))
+  if(ncol(res) == 4) {
+    res |> rlang::set_names(c("gene_id", "gene_symbol", "term_id", "evidence"))
   } else {
     error_response("Problem with Biomart", on_error)
   }

@@ -98,6 +98,8 @@ The second tibble contains gene-term mapping:
 go$mapping
 ```
 
+Note that the mapping can be filtered based on the [evidence code](https://geneontology.org/docs/guide-go-evidence-codes/) (column `evidence`) to include only high-quality GO annotations, before further analysis. Here, we simply use all annotations.
+
 To make these user-friendly data more suitable for rapid functional enrichment analysis, they need to be converted into a machine-friendly object using the following function:
 
 ```{r prepare_for_enrichment}
