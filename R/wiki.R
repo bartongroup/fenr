@@ -180,7 +180,7 @@ fetch_wiki <- function(
   terms <- fetch_wiki_pathways(species, on_error)
   if(is.null(terms))
     return(NULL)
-  mapping <- fetch_wiki_pathway_genes_api(terms$term_id, databases, types)
+  mapping <- fetch_wiki_pathway_genes_api(terms$term_id, databases, types, on_error)
   list(
     terms = terms,
     mapping = mapping

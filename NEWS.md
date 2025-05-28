@@ -178,3 +178,7 @@
  ## Version 1.4.2
 
  - Added evidence code column to GO-term mapping table. It can be used to filter mapping based on their quality. See https://geneontology.org/docs/guide-go-evidence-codes for explanation.
+
+ ## Version 1.6.1
+
+  - Fixed `argument "on_error" is missing, with no default` error in *fetch_wiki()*.
