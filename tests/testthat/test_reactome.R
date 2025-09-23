@@ -59,7 +59,7 @@ test_that("Expected return from fetch_reactome_species", {
 
 
 test_that("Correct Reactome Ensembl from yeast", {
-  re <- fetch_reactome(species, source = "ensembl", use_cache = TRUE, on_error = "ignore")
+  re <- fetch_reactome(species, source = "ensembl", use_cache = FALSE, on_error = "ignore")
   if(!is.null(re)) {
     expect_is(re, "list")
     expect_length(re, 2)
@@ -89,7 +89,7 @@ test_that("Correct Reactome Ensembl from yeast", {
 
 
 test_that("Correct Reactome gene association from yeast", {
-  re <- fetch_reactome(species, source = "gene_association", use_cache = TRUE, on_error = "ignore")
+  re <- fetch_reactome(species, source = "gene_association", use_cache = FALSE, on_error = "ignore")
   if(!is.null(re)) {
     expect_is(re, "list")
     expect_length(re, 2)

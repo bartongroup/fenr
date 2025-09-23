@@ -182,3 +182,8 @@
  ## Version 1.6.1
 
   - Fixed `argument "on_error" is missing, with no default` error in *fetch_wiki()*.
+
+## Version 1.8.2
+
+ - Stopped using cache in tests, as it might lead to failures in case of a corrupted cache.
+
