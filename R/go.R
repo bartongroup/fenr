@@ -205,9 +205,9 @@ fetch_go_genes_go <- function(species, use_cache, on_error) {
   db_id <- go_term <- evidence <- NULL
 
   url <- get_go_annotation_url()
-  if(!assert_url_path(url, on_error))
-    return(NULL)
   gaf_file <- stringr::str_glue("{url}/{species}.gaf.gz")
+  if(!assert_url_path(gaf_file, on_error))
+    return(NULL)
 
   lpath <- cached_url_path(stringr::str_glue("go_gaf_{species}"), gaf_file, use_cache)
   readr::read_tsv(lpath, comment = "!", quote = "", col_names = GAF_COLUMNS,

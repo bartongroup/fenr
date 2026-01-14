@@ -187,3 +187,7 @@
 
  - Stopped using cache in tests, as it might lead to failures in case of a corrupted cache.
 
+## Version 1.8.3
+
+ - Top gene ontology URL does not seem to be accessible directly anymore; changed the URL in `fetch_go_genes_go()` accordingly.
+ 
