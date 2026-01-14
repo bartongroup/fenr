@@ -1,6 +1,6 @@
 Package: fenr
 Title: Fast functional enrichment for interactive applications
-Version: 1.7.3
+Version: 1.9.1
 Authors@R: person(
     given = "Marek",
     family = "Gierlinski",

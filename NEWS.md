@@ -183,11 +183,10 @@
 
   - Fixed `argument "on_error" is missing, with no default` error in *fetch_wiki()*.
 
-## Version 1.8.2
+## Version 1.6.2
 
  - Stopped using cache in tests, as it might lead to failures in case of a corrupted cache.
 
-## Version 1.8.3
+## Version 1.8.1
 
  - Top gene ontology URL does not seem to be accessible directly anymore; changed the URL in `fetch_go_genes_go()` accordingly.
- 
